@@ -10,10 +10,12 @@ const noticeRoutes = require("./routes/notice.routes");
 const profileRoutes = require("./routes/profile.routes");
 const complaintRoutes = require("./routes/complaint.routes");
 const eventRoutes = require("./routes/event.routes");
+const resourceRoutes = require("./routes/resource.routes");
 app.use("/api/auth", userRoutes);
 app.use("/api/notices", noticeRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/resources", resourceRoutes);
 
 module.exports = app;
