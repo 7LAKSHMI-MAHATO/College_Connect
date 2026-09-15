@@ -18,27 +18,35 @@ router.get("/me", authMiddleware, (req, res) => {
     });
 });
 
-router.get("/profile", authMiddleware, getProfile);
-router.get(
-    "/student-test",
-    authMiddleware,
-    roleMiddleware(["student"]),
-    (req, res) => {
-        res.status(200).json({
-            message: "Student access granted"
-        });
-    }
-);
 
 router.get(
-    "/admin-test",
+    "/profile",
     authMiddleware,
-    roleMiddleware(["admin"]),
-    (req, res) => {
-        res.status(200).json({
-            message: "Admin access granted"
-        });
-    }
+    getProfile
 );
+
+
+// router.get("/profile", authMiddleware, getProfile);
+// router.get(
+//     "/student-test",
+//     authMiddleware,
+//     roleMiddleware(["student"]),
+//     (req, res) => {
+//         res.status(200).json({
+//             message: "Student access granted"
+//         });
+//     }
+// );
+
+// router.get(
+//     "/admin-test",
+//     authMiddleware,
+//     roleMiddleware(["admin"]),
+//     (req, res) => {
+//         res.status(200).json({
+//             message: "Admin access granted"
+//         });
+//     }
+// );
 
 module.exports = router;

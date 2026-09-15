@@ -1,40 +1,44 @@
 const express = require("express");
 
-const { createNotice , 
-    getNotices,
-updateNotice,
-deleteNotice} = require("../controllers/notice.controller");
+const {
+    createRequest,
+    getMyRequests,
+    getAllRequests,
+    updateRequestStatus
+    
+} = require("../controllers/request.controller");
 
 const authMiddleware = require("../middleware/auth.middleware");
 const roleMiddleware = require("../middleware/role.middleware");
 
 const router = express.Router();
 
-router.get(
-    "/",
-    authMiddleware,
-    getNotices
-);
-
 router.post(
     "/",
     authMiddleware,
+    roleMiddleware(["student"]),
+    createRequest
+);
+
+router.get(
+    "/my",
+    authMiddleware,
+    roleMiddleware(["student"]),
+    getMyRequests
+);
+
+router.get(
+    "/",
+    authMiddleware,
     roleMiddleware(["admin"]),
-    createNotice
+    getAllRequests
 );
 
 router.put(
-    "/:id",
+    "/:id/status",
     authMiddleware,
     roleMiddleware(["admin"]),
-    updateNotice
-);
-
-router.delete(
-    "/:id",
-    authMiddleware,
-    roleMiddleware(["admin"]),
-    deleteNotice
+    updateRequestStatus
 );
 
 module.exports = router;
