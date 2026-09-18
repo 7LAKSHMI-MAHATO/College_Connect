@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,9 +23,15 @@ function Login() {
      console.log("Login response:", response.data);
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.user.role);
 
       alert("Login successful");
 
+      if (response.data.user.role === "admin") {
+  navigate("/admin");
+} else {
+  navigate("/dashboard");
+}
     } catch (error) {
       console.log("Login error:", error.response?.data);
 
