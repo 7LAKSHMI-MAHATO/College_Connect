@@ -37,14 +37,39 @@ function App() {
         />
 
         <Route
-          path="/"
-          element={
-            <div>
-              <h1>College Connect</h1>
-              <p>Welcome to College Connect</p>
-            </div>
-          }
-        />
+  path="/"
+  element={
+    <div className="home-page">
+      <div className="home-card">
+
+        <h1>College Connect</h1>
+
+        <p>
+          College Campus Management Platform
+        </p>
+
+        <div className="home-buttons">
+
+          <a
+            href="/login"
+            className="btn btn-primary"
+          >
+            Login
+          </a>
+
+          <a
+            href="/register"
+            className="btn btn-secondary"
+          >
+            Register
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+  }
+/>
 
 
         {/* ========================= */}

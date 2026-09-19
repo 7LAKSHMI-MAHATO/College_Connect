@@ -36,31 +36,83 @@ function Notices() {
   }, []);
 
   if (loading) {
-    return <p>Loading notices...</p>;
+    return (
+      <div className="loading-page">
+        <div className="loading-card">
+          <div className="loading-spinner"></div>
+          <p>Loading notices...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>College Notices</h1>
+    <div className="content-page">
 
-      {notices.length === 0 ? (
-        <p>No notices available.</p>
-      ) : (
-        notices.map((notice) => (
-          <div key={notice._id}>
-            <h2>{notice.title}</h2>
+      <header className="content-header">
+        <div>
+          <p className="page-label">Student Portal</p>
 
-            <p>{notice.description}</p>
+          <h1>College Notices</h1>
 
+          <p className="page-description">
+            Stay updated with important college announcements.
+          </p>
+        </div>
+      </header>
+
+      <main className="content-container">
+
+        {notices.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">📢</div>
+            <h3>No notices available</h3>
             <p>
-              Date:{" "}
-              {new Date(notice.createdAt).toLocaleDateString()}
+              There are currently no college notices to display.
             </p>
-
-            <hr />
           </div>
-        ))
-      )}
+        ) : (
+          <div className="notice-list">
+
+            {notices.map((notice) => (
+              <div
+                className="notice-card"
+                key={notice._id}
+              >
+
+                <div className="notice-icon">
+                  📢
+                </div>
+
+                <div className="notice-content">
+
+                  <div className="notice-top">
+
+                    <h2>
+                      {notice.title}
+                    </h2>
+
+                    <span className="notice-date">
+                      {new Date(
+                        notice.createdAt
+                      ).toLocaleDateString()}
+                    </span>
+
+                  </div>
+
+                  <p>
+                    {notice.description}
+                  </p>
+
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+        )}
+
+      </main>
     </div>
   );
 }

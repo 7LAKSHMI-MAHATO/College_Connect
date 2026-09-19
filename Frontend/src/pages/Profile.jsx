@@ -17,7 +17,7 @@ function Profile() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "${import.meta.env.VITE_API_URL}/api/profile",
+        `${import.meta.env.VITE_API_URL}/api/profile`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ function Profile() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "${import.meta.env.VITE_API_URL}/api/profile",
+        `${import.meta.env.VITE_API_URL}/api/profile`,
         {
           department,
           semester: Number(semester),
@@ -114,7 +114,7 @@ function Profile() {
       formData.append("profileImage", image);
 
       const response = await axios.put(
-        "${import.meta.env.VITE_API_URL}/api/profile/image",
+        `${import.meta.env.VITE_API_URL}/api/profile/image`,
         formData,
         {
           headers: {
@@ -146,146 +146,257 @@ function Profile() {
       );
     }
   };
-
-  if (loading) {
-    return <p>Loading profile...</p>;
-  }
-
-  if (!profile) {
-    return <p>Profile not found.</p>;
-  }
-
+if (loading) {
   return (
-    <div>
-      <h1>My Profile</h1>
-
-      {/* Profile Image Upload */}
-
-      <form onSubmit={handleImageUpload}>
-
-        <div>
-          <label>Profile Image</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setImage(e.target.files[0])
-            }
-          />
-        </div>
-
-        <button type="submit">
-          Upload Profile Image
-        </button>
-
-      </form>
-
-      <hr />
-
-      {/* Edit Profile */}
-
-      <h2>Edit Profile</h2>
-
-      <form onSubmit={handleUpdate}>
-
-        <div>
-          <label>Department</label>
-
-          <input
-            type="text"
-            placeholder="Enter department"
-            value={department}
-            onChange={(e) =>
-              setDepartment(e.target.value)
-            }
-          />
-        </div>
-
-        <div>
-          <label>Semester</label>
-
-          <input
-            type="number"
-            placeholder="Enter semester"
-            value={semester}
-            onChange={(e) =>
-              setSemester(e.target.value)
-            }
-          />
-        </div>
-
-        <div>
-          <label>Bio</label>
-
-          <textarea
-            placeholder="Enter your bio"
-            value={bio}
-            onChange={(e) =>
-              setBio(e.target.value)
-            }
-          />
-        </div>
-
-        <div>
-          <label>Skills</label>
-
-          <input
-            type="text"
-            placeholder="Example: Java, React, MongoDB"
-            value={skills}
-            onChange={(e) =>
-              setSkills(e.target.value)
-            }
-          />
-        </div>
-
-        <button type="submit">
-          Update Profile
-        </button>
-
-      </form>
-
-      <hr />
-
-      {/* Profile Information */}
-
-      <h2>Profile Information</h2>
-
-      {profile.profileImage && (
-        <div>
-          <img
-            src={profile.profileImage}
-            alt="Profile"
-            width="150"
-          />
-        </div>
-      )}
-
-      <p>
-        <strong>Department:</strong>{" "}
-        {profile.department || "Not added"}
-      </p>
-
-      <p>
-        <strong>Semester:</strong>{" "}
-        {profile.semester || "Not added"}
-      </p>
-
-      <p>
-        <strong>Bio:</strong>{" "}
-        {profile.bio || "Not added"}
-      </p>
-
-      <p>
-        <strong>Skills:</strong>{" "}
-        {profile.skills?.length
-          ? profile.skills.join(", ")
-          : "No skills added"}
-      </p>
-
+    <div className="loading-page">
+      <div className="loading-card">
+        <div className="loading-spinner"></div>
+        <p>Loading profile...</p>
+      </div>
     </div>
   );
 }
+
+if (!profile) {
+  return (
+    <div className="loading-page">
+      <div className="empty-state">
+        <div className="empty-icon">👤</div>
+        <h3>Profile not found</h3>
+        <p>Unable to load your profile information.</p>
+      </div>
+    </div>
+  );
+}
+
+  return (
+  <div className="content-page">
+
+    <header className="content-header">
+      <div>
+        <p className="page-label">Student Portal</p>
+
+        <h1>My Profile</h1>
+
+        <p className="page-description">
+          View and update your personal profile information.
+        </p>
+      </div>
+    </header>
+
+    <main className="content-container">
+
+      {/* Profile Overview */}
+
+      <section className="profile-card">
+
+        <div className="profile-image-section">
+
+          {profile.profileImage ? (
+            <img
+              src={profile.profileImage}
+              alt="Profile"
+              className="profile-image"
+            />
+          ) : (
+            <div className="profile-image-placeholder">
+              👤
+            </div>
+          )}
+
+          <div>
+            <h2>{profile.name || "Student"}</h2>
+
+            <p>
+              {profile.email || "No email available"}
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* Profile Image Upload */}
+
+      <section className="profile-section-card">
+
+        <div className="section-heading">
+          <div>
+            <h2>Profile Image</h2>
+
+            <p>
+              Upload a new profile picture.
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={handleImageUpload}>
+
+          <div className="form-group">
+            <label>Select Image</label>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setImage(e.target.files[0])
+              }
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+          >
+            Upload Profile Image
+          </button>
+
+        </form>
+
+      </section>
+
+
+      {/* Edit Profile */}
+
+      <section className="profile-section-card">
+
+        <div className="section-heading">
+          <div>
+            <h2>Edit Profile</h2>
+
+            <p>
+              Update your academic and personal information.
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={handleUpdate}>
+
+          <div className="form-group">
+            <label>Department</label>
+
+            <input
+              type="text"
+              placeholder="Enter department"
+              value={department}
+              onChange={(e) =>
+                setDepartment(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Semester</label>
+
+            <input
+              type="number"
+              placeholder="Enter semester"
+              value={semester}
+              onChange={(e) =>
+                setSemester(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Bio</label>
+
+            <textarea
+              placeholder="Enter your bio"
+              value={bio}
+              onChange={(e) =>
+                setBio(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Skills</label>
+
+            <input
+              type="text"
+              placeholder="Example: Java, React, MongoDB"
+              value={skills}
+              onChange={(e) =>
+                setSkills(e.target.value)
+              }
+            />
+
+            <small className="form-hint">
+              Separate multiple skills with commas.
+            </small>
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+          >
+            Update Profile
+          </button>
+
+        </form>
+
+      </section>
+
+
+      {/* Profile Information */}
+
+      <section className="profile-section-card">
+
+        <div className="section-heading">
+          <div>
+            <h2>Profile Information</h2>
+
+            <p>
+              Your currently saved profile details.
+            </p>
+          </div>
+        </div>
+
+        <div className="profile-info-list">
+
+          <div className="profile-info-item">
+            <span>Department</span>
+
+            <strong>
+              {profile.department || "Not added"}
+            </strong>
+          </div>
+
+          <div className="profile-info-item">
+            <span>Semester</span>
+
+            <strong>
+              {profile.semester || "Not added"}
+            </strong>
+          </div>
+
+          <div className="profile-info-item">
+            <span>Bio</span>
+
+            <strong>
+              {profile.bio || "Not added"}
+            </strong>
+          </div>
+
+          <div className="profile-info-item">
+            <span>Skills</span>
+
+            <strong>
+              {profile.skills?.length
+                ? profile.skills.join(", ")
+                : "No skills added"}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+);}
 
 export default Profile;

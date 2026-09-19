@@ -59,8 +59,8 @@ function Complaints() {
 
       alert("Complaint submitted successfully");
 
-      setDescription("");
-      setDescription("");
+      setSubject("");
+       setDescription("");
 
       fetchComplaints();
     } catch (error) {
@@ -77,67 +77,147 @@ function Complaints() {
   };
 
   return (
-    <div>
-      <h1>Complaints</h1>
+  <div className="content-page">
 
-      <h2>Submit a Complaint</h2>
+    <header className="content-header">
+      <div>
+        <p className="page-label">Student Portal</p>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Subject</label>
+        <h1>Complaints</h1>
 
-          <input
-            type="text"
-            placeholder="Enter complaint subject"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            required
-          />
+        <p className="page-description">
+          Submit a complaint and track its current status.
+        </p>
+      </div>
+    </header>
+
+    <main className="content-container">
+
+      <section className="complaint-form-card">
+
+        <div className="section-heading">
+          <div>
+            <h2>Submit a Complaint</h2>
+            <p>
+              Tell us about an issue you are facing on campus.
+            </p>
+          </div>
         </div>
 
-        <div>
-          <label>Description</label>
+        <form onSubmit={handleSubmit}>
 
-          <textarea
-            placeholder="Describe your complaint"
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            required
-          />
+          <div className="form-group">
+            <label>Subject</label>
+
+            <input
+              type="text"
+              placeholder="Enter complaint subject"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Description</label>
+
+            <textarea
+              placeholder="Describe your complaint"
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+          >
+            Submit Complaint
+          </button>
+
+        </form>
+
+      </section>
+
+      <section className="complaints-section">
+
+        <div className="section-heading">
+          <div>
+            <h2>My Complaints</h2>
+            <p>View the complaints you have submitted.</p>
+          </div>
         </div>
 
-        <button type="submit">
-          Submit Complaint
-        </button>
-      </form>
+        {loading ? (
+          <div className="loading-card">
+            <div className="loading-spinner"></div>
+            <p>Loading complaints...</p>
+          </div>
 
-      <hr />
+        ) : complaints.length === 0 ? (
 
-      <h2>My Complaints</h2>
+          <div className="empty-state">
+            <div className="empty-icon">📝</div>
 
-      {loading ? (
-        <p>Loading complaints...</p>
-      ) : complaints.length === 0 ? (
-        <p>No complaints submitted.</p>
-      ) : (
-        complaints.map((complaint) => (
-          <div key={complaint._id}>
-            <h3>{complaint.subject}</h3>
-
-            <p>{complaint.description}</p>
+            <h3>No complaints submitted</h3>
 
             <p>
-              Status: {complaint.status}
+              You have not submitted any complaints yet.
             </p>
-
-            <hr />
           </div>
-        ))
-      )}
-    </div>
-  );
-}
+
+        ) : (
+
+          <div className="complaint-list">
+
+            {complaints.map((complaint) => (
+
+              <div
+                className="complaint-card"
+                key={complaint._id}
+              >
+
+                <div className="complaint-icon">
+                  📝
+                </div>
+
+                <div className="complaint-content">
+
+                  <div className="complaint-top">
+
+                    <h3>
+                      {complaint.subject}
+                    </h3>
+
+                    <span
+                      className={`status-badge status-${complaint.status?.toLowerCase()}`}
+                    >
+                      {complaint.status}
+                    </span>
+
+                  </div>
+
+                  <p>
+                    {complaint.description}
+                  </p>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
+  </div>
+);}
 
 export default Complaints;

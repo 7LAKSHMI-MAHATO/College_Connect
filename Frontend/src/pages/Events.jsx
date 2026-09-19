@@ -11,7 +11,7 @@ function Events() {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "${import.meta.env.VITE_API_URL}/api/events",
+          `${import.meta.env.VITE_API_URL}/api/events`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -35,38 +35,96 @@ function Events() {
     fetchEvents();
   }, []);
 
-  if (loading) {
-    return <p>Loading events...</p>;
-  }
-
+ if (loading) {
   return (
-    <div>
-      <h1>College Events</h1>
-
-      {events.length === 0 ? (
-        <p>No events available.</p>
-      ) : (
-        events.map((event) => (
-          <div key={event._id}>
-            <h2>{event.title}</h2>
-
-            <p>{event.description}</p>
-
-            <p>
-              Date:{" "}
-              {new Date(event.date).toLocaleDateString()}
-            </p>
-
-            <p>
-              Location: {event.location}
-            </p>
-
-            <hr />
-          </div>
-        ))
-      )}
+    <div className="loading-page">
+      <div className="loading-card">
+        <div className="loading-spinner"></div>
+        <p>Loading events...</p>
+      </div>
     </div>
   );
 }
+  return (
+  <div className="content-page">
+
+    <header className="content-header">
+      <div>
+        <p className="page-label">Student Portal</p>
+
+        <h1>College Events</h1>
+
+        <p className="page-description">
+          Discover upcoming college events and activities.
+        </p>
+      </div>
+    </header>
+
+    <main className="content-container">
+
+      {events.length === 0 ? (
+
+        <div className="empty-state">
+          <div className="empty-icon">🎉</div>
+
+          <h3>No events available</h3>
+
+          <p>
+            There are currently no upcoming college events.
+          </p>
+        </div>
+
+      ) : (
+
+        <div className="event-list">
+
+          {events.map((event) => (
+
+            <div
+              className="event-card"
+              key={event._id}
+            >
+
+              <div className="event-icon">
+                🎉
+              </div>
+
+              <div className="event-content">
+
+                <div className="event-top">
+
+                  <h2>
+                    {event.title}
+                  </h2>
+
+                  <span className="event-date">
+                    {new Date(
+                      event.date
+                    ).toLocaleDateString()}
+                  </span>
+
+                </div>
+
+                <p className="event-description">
+                  {event.description}
+                </p>
+
+                <p className="event-location">
+                  📍 {event.location}
+                </p>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      )}
+
+    </main>
+  </div>
+);}
 
 export default Events;
