@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import.meta.env.VITE_API_URL
 
 function AdminEvents() {
   const [events, setEvents] = useState([]);
@@ -22,7 +23,7 @@ function AdminEvents() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/events",
+        "${import.meta.env.VITE_API_URL}/api/events",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -61,7 +62,7 @@ function AdminEvents() {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:3000/api/events",
+        `${import.meta.env.VITE_API_URL}/api/events`,
         {
           title,
           description,
@@ -129,7 +130,7 @@ function AdminEvents() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `http://localhost:3000/api/events/${editingId}`,
+        `${import.meta.env.VITE_API_URL}/api/events/${editingId}`,
         {
           title: editTitle,
           description: editDescription,
@@ -180,7 +181,7 @@ function AdminEvents() {
       const token = localStorage.getItem("token");
 
       const response = await axios.delete(
-        `http://localhost:3000/api/events/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/events/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

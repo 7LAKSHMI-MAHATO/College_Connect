@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import.meta.env.VITE_API_URL
 
 function AdminComplaints() {
   const [complaints, setComplaints] = useState([]);
@@ -13,7 +14,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/complaints",
+        `${import.meta.env.VITE_API_URL}/api/complaints`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -65,7 +66,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `http://localhost:3000/api/complaints/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/api/complaints/${id}/status`,
         {
           status
         },

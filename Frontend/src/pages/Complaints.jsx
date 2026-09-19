@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 function Complaints() {
   const [complaints, setComplaints] = useState([]);
   const [subject, setSubject] = useState("");
@@ -12,7 +13,7 @@ function Complaints() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/complaints/my",
+        `${import.meta.env.VITE_API_URL}/api/complaints/my`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -44,7 +45,7 @@ function Complaints() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:3000/api/complaints",
+        `${import.meta.env.VITE_API_URL}/api/complaints`,
         {
           subject,
           description

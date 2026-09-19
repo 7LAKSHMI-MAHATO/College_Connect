@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import.meta.env.VITE_API_URL
 
 function AdminResources() {
   const [resources, setResources] = useState([]);
@@ -21,7 +22,7 @@ const [editUrl, setEditUrl] = useState("");
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/resources",
+        "${import.meta.env.VITE_API_URL}/api/resources",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -56,7 +57,7 @@ const [editUrl, setEditUrl] = useState("");
     const token = localStorage.getItem("token");
 
     const response = await axios.post(
-      "http://localhost:3000/api/resources",
+      `${import.meta.env.VITE_API_URL}/api/resources`,
       {
         title,
         description,
@@ -121,7 +122,7 @@ const handleUpdateResource = async (e) => {
     const token = localStorage.getItem("token");
 
     const response = await axios.put(
-      `http://localhost:3000/api/resources/${editingId}`,
+      `${import.meta.env.VITE_API_URL}/api/resources/${editingId}`,
       {
         title: editTitle,
         description: editDescription,
@@ -172,7 +173,7 @@ const handleDeleteResource = async (id) => {
     const token = localStorage.getItem("token");
 
     const response = await axios.delete(
-      `http://localhost:3000/api/resources/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/resources/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`

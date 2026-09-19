@@ -12,7 +12,7 @@ function AdminRequests() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/requests",
+        "${import.meta.env.VITE_API_URL}/api/requests",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -46,7 +46,7 @@ function AdminRequests() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `http://localhost:3000/api/requests/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/api/requests/${id}/status`,
         {
           status
         },

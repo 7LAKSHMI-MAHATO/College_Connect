@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import.meta.env.VITE_API_URL
 function Requests() {
   const [requests, setRequests] = useState([]);
   const [subject, setSubject] = useState("");
@@ -12,7 +12,7 @@ function Requests() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/requests/my",
+        "${import.meta.env.VITE_API_URL}/api/requests/my",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -44,7 +44,7 @@ function Requests() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:3000/api/requests",
+        `${import.meta.env.VITE_API_URL}/api/requests`,
         {
           subject,
           description

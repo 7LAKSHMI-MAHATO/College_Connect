@@ -17,7 +17,7 @@ function Profile() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/profile",
+        "${import.meta.env.VITE_API_URL}/api/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ function Profile() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:3000/api/profile",
+        "${import.meta.env.VITE_API_URL}/api/profile",
         {
           department,
           semester: Number(semester),
@@ -114,7 +114,7 @@ function Profile() {
       formData.append("profileImage", image);
 
       const response = await axios.put(
-        "http://localhost:3000/api/profile/image",
+        "${import.meta.env.VITE_API_URL}/api/profile/image",
         formData,
         {
           headers: {

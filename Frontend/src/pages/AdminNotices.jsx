@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import.meta.env.VITE_API_URL
 
 function AdminNotices() {
   const [notices, setNotices] = useState([]);
@@ -19,7 +20,7 @@ function AdminNotices() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:3000/api/notices",
+        "${import.meta.env.VITE_API_URL}/api/notices",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -58,7 +59,7 @@ function AdminNotices() {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:3000/api/notices",
+        `${import.meta.env.VITE_API_URL}/api/notices`,
         {
           title,
           description
@@ -120,7 +121,7 @@ function AdminNotices() {
       const token = localStorage.getItem("token");
 
       const response = await axios.delete(
-        `http://localhost:3000/api/notices/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/notices/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -157,7 +158,7 @@ function AdminNotices() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `http://localhost:3000/api/notices/${editingId}`,
+        `${import.meta.env.VITE_API_URL}/api/notices/${editingId}`,
         {
           title: editTitle,
           description: editDescription
