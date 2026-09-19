@@ -11,7 +11,7 @@ function Notices() {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "${import.meta.env.VITE_API_URL}/api/notices",
+          `${import.meta.env.VITE_API_URL}/api/notices`,
           {
             headers: {
               Authorization: `Bearer ${token}`
