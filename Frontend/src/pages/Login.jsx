@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ function Login() {
         }
       );
 
-     console.log("Login response:", response.data);
+      console.log("Login response:", response.data);
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.user.role);
@@ -28,54 +28,84 @@ function Login() {
       alert("Login successful");
 
       if (response.data.user.role === "admin") {
-  navigate("/admin");
-} else {
-  navigate("/dashboard");
-}
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
+
     } catch (error) {
-      console.log("Login error:", error.response?.data);
+      console.log(
+        "Login error:",
+        error.response?.data
+      );
 
       alert(
-        error.response?.data?.message || "Login failed"
+        error.response?.data?.message ||
+        "Login failed"
       );
     }
   };
 
   return (
-    <div>
-      <h1>College Connect</h1>
+    <div className="auth-page">
 
-      <h2>Login</h2>
+      <div className="auth-card">
 
-      <form onSubmit={handleLogin}>
+        <h1>College Connect</h1>
 
-        <div>
-          <label>Email</label>
+        <p className="auth-subtitle">
+          College Campus Management Platform
+        </p>
 
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <h2>Login</h2>
 
-        <div>
-          <label>Password</label>
+        <form onSubmit={handleLogin}>
 
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+          <div className="form-group">
+            <label>Email</label>
 
-        <button type="submit">
-          Login
-        </button>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-      </form>
+
+          <div className="form-group">
+            <label>Password</label>
+
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+
+          <button
+            type="submit"
+            className="btn btn-primary auth-button"
+          >
+            Login
+          </button>
+
+        </form>
+
+
+        <p className="auth-footer">
+          Don't have an account?{" "}
+          <Link to="/register">
+            Register
+          </Link>
+        </p>
+
+      </div>
+
     </div>
   );
 }

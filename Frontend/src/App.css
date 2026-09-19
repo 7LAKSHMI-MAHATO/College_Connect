@@ -494,3 +494,119 @@ tr:last-child td {
     font-size: 13px;
   }
 }
+
+/* =========================================
+   Authentication Pages
+   ========================================= */
+
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  background: var(--bg);
+}
+
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-lg);
+
+  padding: 35px;
+
+  box-shadow: var(--shadow-lg);
+}
+
+
+.auth-card h1 {
+  color: var(--primary);
+
+  font-size: 28px;
+
+  text-align: center;
+
+  margin-bottom: 5px;
+}
+
+
+.auth-subtitle {
+  color: var(--text-secondary);
+
+  font-size: 14px;
+
+  text-align: center;
+
+  margin-bottom: 28px;
+}
+
+
+.auth-card h2 {
+  font-size: 22px;
+
+  margin-bottom: 22px;
+}
+
+
+.auth-button {
+  width: 100%;
+
+  margin-top: 5px;
+
+  padding: 12px 16px;
+}
+
+
+.auth-footer {
+  text-align: center;
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+
+  margin-top: 22px;
+}
+
+
+.auth-footer a {
+  color: var(--primary);
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   Authentication Responsive
+   ========================================= */
+
+@media (max-width: 500px) {
+
+  .auth-page {
+    padding: 20px 15px;
+  }
+
+  .auth-card {
+    padding: 25px 20px;
+  }
+
+  .auth-card h1 {
+    font-size: 24px;
+  }
+
+}
