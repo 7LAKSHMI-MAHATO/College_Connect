@@ -1,38 +1,49 @@
-# 🎓 College Connect
+# College Connect 🎓
 
-A full-stack campus management and student support platform designed to connect students and administrators through a centralized web application.
+A full-stack college campus management platform that connects students and administrators through a centralized web application.
 
-College Connect provides modules for authentication, student profiles, notices, complaints, events, study resources, student requests, and administrative management.
+College Connect provides separate student and administrator workflows for managing notices, complaints, events, learning resources, student requests, and profiles.
 
 ---
 
-## 🚀 Features
+## 🚀 Live Project
+
+**Frontend:**  
+https://college-connect-fawn.vercel.app/
+
+**Backend API:**  
+https://college-connect-backend-axcd.onrender.com/
+
+---
+
+## ✨ Features
 
 ### 👨‍🎓 Student Features
 
 - Student registration and login
 - JWT-based authentication
-- Student profile management
-- Profile image upload
+- Student dashboard
 - View college notices
 - Submit and track complaints
 - View upcoming college events
-- Access study resources
+- Access learning resources
 - Submit student requests
-- Track complaint and request status
-- Secure logout
+- Track request status
+- View and update profile
+- Upload profile image
 
 ### 👨‍💼 Admin Features
 
 - Admin authentication
-- Admin dashboard with statistics
-- Notice management
-- Complaint management
-- Complaint status updates
-- Event management
-- Resource management
-- Student request management
-- Request status updates
+- Administrative dashboard
+- View platform statistics
+- Manage notices
+- Manage events
+- Manage learning resources
+- View and manage student complaints
+- Update complaint status
+- View and manage student requests
+- Update request status
 - Role-based access control
 
 ---
@@ -45,7 +56,6 @@ College Connect provides modules for authentication, student profiles, notices, 
 - Vite
 - React Router
 - Axios
-- HTML
 - CSS
 
 ### Backend
@@ -58,78 +68,42 @@ College Connect provides modules for authentication, student profiles, notices, 
 - bcryptjs
 - Multer
 
-### Image Storage
+### Cloud Services
 
+- MongoDB Atlas
 - ImageKit
-
-### Development Tools
-
-- VS Code
-- Postman
-- Git
-- GitHub
+- Render
+- Vercel
 
 ---
 
 ## 🏗️ Project Architecture
 
-```text
+
 College_Connect
+│
+├── Frontend
+│   ├── src
+│   │   ├── pages
+│   │   ├── assets
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   └── ProtectedRoute.jsx
+│   │
+│   └── package.json
 │
 ├── Backend
 │   ├── src
 │   │   ├── config
-│   │   │   ├── db.js
-│   │   │   └── imagekit.js
-│   │   │
 │   │   ├── models
-│   │   │   ├── user.model.js
-│   │   │   ├── profile.model.js
-│   │   │   ├── notice.model.js
-│   │   │   ├── complaint.model.js
-│   │   │   ├── event.model.js
-│   │   │   ├── resource.model.js
-│   │   │   └── request.model.js
-│   │   │
-│   │   ├── controllers
-│   │   │   ├── user.controller.js
-│   │   │   ├── auth.controller.js
-│   │   │   ├── profile.controller.js
-│   │   │   ├── notice.controller.js
-│   │   │   ├── complaint.controller.js
-│   │   │   ├── event.controller.js
-│   │   │   ├── resource.controller.js
-│   │   │   ├── request.controller.js
-│   │   │   └── admin.controller.js
-│   │   │
 │   │   ├── routes
-│   │   │   ├── user.routes.js
-│   │   │   ├── profile.routes.js
-│   │   │   ├── notice.routes.js
-│   │   │   ├── complaint.routes.js
-│   │   │   ├── event.routes.js
-│   │   │   ├── resource.routes.js
-│   │   │   ├── request.routes.js
-│   │   │   └── admin.routes.js
-│   │   │
+│   │   ├── controllers
 │   │   ├── middleware
-│   │   │   ├── auth.middleware.js
-│   │   │   └── role.middleware.js
-│   │   │
 │   │   └── app.js
 │   │
 │   ├── server.js
-│   ├── package.json
-│   └── .env
+│   └── package.json
 │
-└── Frontend
-    ├── src
-    │   ├── pages
-    │   ├── assets
-    │   ├── App.jsx
-    │   ├── ProtectedRoute.jsx
-    │   ├── App.css
-    │   └── index.css
-    │
-    ├── package.json
-    └── vite.config.js
+└── README.md
