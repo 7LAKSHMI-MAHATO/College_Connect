@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import.meta.env.VITE_API_URL
+
 
 function AdminComplaints() {
   const [complaints, setComplaints] = useState([]);
@@ -104,109 +104,236 @@ function AdminComplaints() {
   }
 
   return (
-    <div>
+  <div className="content-page">
 
-      <Link to="/admin">
-        ← Back to Dashboard
-      </Link>
-
-      <h1>Manage Complaints</h1>
-
-      {/* Status Filters */}
+    <header className="content-header">
 
       <div>
+        <p className="page-label">
+          Administration
+        </p>
 
-        <button onClick={() => setFilter("all")}>
-          All
-        </button>
+        <h1>Manage Complaints</h1>
 
-        <button onClick={() => setFilter("pending")}>
-          Pending
-        </button>
-
-        <button onClick={() => setFilter("in-progress")}>
-          In Progress
-        </button>
-
-        <button onClick={() => setFilter("resolved")}>
-          Resolved
-        </button>
-
+        <p className="page-description">
+          Review student complaints and update their status.
+        </p>
       </div>
 
-      <hr />
+      <Link
+        to="/admin"
+        className="btn btn-secondary"
+      >
+        ← Dashboard
+      </Link>
 
-      {/* Complaints */}
+    </header>
 
-      {filteredComplaints.length === 0 ? (
-        <p>No complaints found.</p>
-      ) : (
-        filteredComplaints.map((complaint) => (
-          <div key={complaint._id}>
 
-            <h2>{complaint.subject}</h2>
+    <main className="content-container">
 
-            <p>
-              <strong>Student:</strong>{" "}
-              {complaint.student?.name || "Unknown"}
-            </p>
+      {/* Filters */}
 
-            <p>
-              <strong>Email:</strong>{" "}
-              {complaint.student?.email || "Unknown"}
-            </p>
+      <section className="admin-filter-card">
+
+        <div className="section-heading">
+          <div>
+            <h2>Filter Complaints</h2>
 
             <p>
-              <strong>Description:</strong>{" "}
-              {complaint.description}
+              View complaints based on their current status.
             </p>
+          </div>
+        </div>
+
+        <div className="complaint-filters">
+
+          <button
+            className={
+              filter === "all"
+                ? "filter-btn active"
+                : "filter-btn"
+            }
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+
+          <button
+            className={
+              filter === "pending"
+                ? "filter-btn active"
+                : "filter-btn"
+            }
+            onClick={() => setFilter("pending")}
+          >
+            Pending
+          </button>
+
+          <button
+            className={
+              filter === "in-progress"
+                ? "filter-btn active"
+                : "filter-btn"
+            }
+            onClick={() => setFilter("in-progress")}
+          >
+            In Progress
+          </button>
+
+          <button
+            className={
+              filter === "resolved"
+                ? "filter-btn active"
+                : "filter-btn"
+            }
+            onClick={() => setFilter("resolved")}
+          >
+            Resolved
+          </button>
+
+        </div>
+
+      </section>
+
+
+      {/* Complaint List */}
+
+      <section className="admin-complaints-section">
+
+        <div className="section-heading">
+          <div>
+            <h2>Student Complaints</h2>
 
             <p>
-              <strong>Submitted:</strong>{" "}
-              {new Date(
-                complaint.createdAt
-              ).toLocaleString()}
+              {filteredComplaints.length} complaint
+              {filteredComplaints.length !== 1 ? "s" : ""} found.
             </p>
+          </div>
+        </div>
+
+
+        {filteredComplaints.length === 0 ? (
+
+          <div className="empty-state">
+
+            <div className="empty-icon">
+              📝
+            </div>
+
+            <h3>
+              No complaints found
+            </h3>
 
             <p>
-              <strong>Current Status:</strong>{" "}
-              {complaint.status}
+              There are no complaints matching the selected filter.
             </p>
-
-            <label>
-              <strong>Update Status:</strong>{" "}
-            </label>
-
-            <select
-              value={complaint.status}
-              onChange={(e) =>
-                updateStatus(
-                  complaint._id,
-                  e.target.value
-                )
-              }
-            >
-              <option value="pending">
-                Pending
-              </option>
-
-              <option value="in-progress">
-                In Progress
-              </option>
-
-              <option value="resolved">
-                Resolved
-              </option>
-            </select>
-
-            <hr />
 
           </div>
-        ))
-      )}
 
-    </div>
-  );
+        ) : (
+
+          <div className="admin-complaint-list">
+
+            {filteredComplaints.map((complaint) => (
+
+              <div
+                className="admin-complaint-card"
+                key={complaint._id}
+              >
+
+                <div className="admin-complaint-icon">
+                  📝
+                </div>
+
+
+                <div className="admin-complaint-content">
+
+                  <div className="admin-complaint-top">
+
+                    <div>
+                      <h3>
+                        {complaint.subject}
+                      </h3>
+
+                      <p className="admin-complaint-student">
+                        👤{" "}
+                        {complaint.student?.name || "Unknown"}
+                        {" • "}
+                        {complaint.student?.email || "Unknown"}
+                      </p>
+                    </div>
+
+                    <span
+                      className={`status-badge status-${complaint.status}`}
+                    >
+                      {complaint.status}
+                    </span>
+
+                  </div>
+
+
+                  <p className="admin-complaint-description">
+                    {complaint.description}
+                  </p>
+
+
+                  <p className="admin-complaint-date">
+                    Submitted:{" "}
+                    {new Date(
+                      complaint.createdAt
+                    ).toLocaleString()}
+                  </p>
+
+
+                  <div className="admin-status-control">
+
+                    <label>
+                      Update Status
+                    </label>
+
+                    <select
+                      value={complaint.status}
+                      onChange={(e) =>
+                        updateStatus(
+                          complaint._id,
+                          e.target.value
+                        )
+                      }
+                    >
+
+                      <option value="pending">
+                        Pending
+                      </option>
+
+                      <option value="in-progress">
+                        In Progress
+                      </option>
+
+                      <option value="resolved">
+                        Resolved
+                      </option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
+
+  </div>
+);
 }
 
 export default AdminComplaints;

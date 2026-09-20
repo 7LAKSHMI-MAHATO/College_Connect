@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import.meta.env.VITE_API_URL
+
 
 function AdminResources() {
   const [resources, setResources] = useState([]);
@@ -22,7 +22,7 @@ const [editUrl, setEditUrl] = useState("");
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "${import.meta.env.VITE_API_URL}/api/resources",
+        `${import.meta.env.VITE_API_URL}/api/resources`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -213,271 +213,424 @@ const handleDeleteResource = async (id) => {
   }
 
   return (
-    <div>
+  <div className="content-page">
 
-      <Link to="/admin">
-        ← Back to Dashboard
+    <header className="content-header">
+
+      <div>
+        <p className="page-label">
+          Administration
+        </p>
+
+        <h1>Manage Resources</h1>
+
+        <p className="page-description">
+          Create, update, and manage learning resources for students.
+        </p>
+      </div>
+
+      <Link
+        to="/admin"
+        className="btn btn-secondary"
+      >
+        ← Dashboard
       </Link>
 
-      <h1>Manage Resources</h1>
+    </header>
 
-      <hr />
 
-      <h2>Create Resource</h2>
+    <main className="content-container">
 
-<form onSubmit={handleCreateResource}>
+      {/* Create Resource */}
 
-  <div>
-    <label>Title</label>
+      <section className="admin-form-card">
 
-    <br />
+        <div className="section-heading">
 
-    <input
-      type="text"
-      placeholder="Enter resource title"
-      value={title}
-      onChange={(e) =>
-        setTitle(e.target.value)
-      }
-      required
-    />
-  </div>
+          <div>
+            <h2>Create Resource</h2>
 
-  <br />
+            <p>
+              Add study materials, notes, links, and previous-year questions.
+            </p>
+          </div>
 
-  <div>
-    <label>Description</label>
-
-    <br />
-
-    <textarea
-      placeholder="Enter resource description"
-      value={description}
-      onChange={(e) =>
-        setDescription(e.target.value)
-      }
-      required
-    />
-  </div>
-
-  <br />
-
-  <div>
-    <label>Type</label>
-
-    <br />
-
-    <select
-      value={type}
-      onChange={(e) =>
-        setType(e.target.value)
-      }
-    >
-      <option value="notes">Notes</option>
-      <option value="study-material">
-        Study Material
-      </option>
-      <option value="previous-year-question">
-        Previous Year Question
-      </option>
-      <option value="link">
-        Link
-      </option>
-    </select>
-  </div>
-
-  <br />
-
-  <div>
-    <label>URL</label>
-
-    <br />
-
-    <input
-      type="url"
-      placeholder="Enter resource URL"
-      value={url}
-      onChange={(e) =>
-        setUrl(e.target.value)
-      }
-      required
-    />
-  </div>
-
-  <br />
-
-  <button type="submit">
-    Create Resource
-  </button>
-
-</form>
-
-<hr />
-
-      <h2>All Resources</h2>
-
-      {resources.length === 0 ? (
-        <p>No resources found.</p>
-      ) : (
-        resources.map((resource) => (
-  <div key={resource._id}>
-
-    {editingId === resource._id ? (
-
-      <form onSubmit={handleUpdateResource}>
-
-        <h3>Edit Resource</h3>
-
-        <div>
-          <label>Title</label>
-
-          <br />
-
-          <input
-            type="text"
-            value={editTitle}
-            onChange={(e) =>
-              setEditTitle(e.target.value)
-            }
-            required
-          />
         </div>
 
-        <br />
 
-        <div>
-          <label>Description</label>
-
-          <br />
-
-          <textarea
-            value={editDescription}
-            onChange={(e) =>
-              setEditDescription(e.target.value)
-            }
-            required
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Type</label>
-
-          <br />
-
-          <select
-            value={editType}
-            onChange={(e) =>
-              setEditType(e.target.value)
-            }
-          >
-            <option value="notes">
-              Notes
-            </option>
-
-            <option value="study-material">
-              Study Material
-            </option>
-
-            <option value="previous-year-question">
-              Previous Year Question
-            </option>
-
-            <option value="link">
-              Link
-            </option>
-          </select>
-        </div>
-
-        <br />
-
-        <div>
-          <label>URL</label>
-
-          <br />
-
-          <input
-            type="url"
-            value={editUrl}
-            onChange={(e) =>
-              setEditUrl(e.target.value)
-            }
-            required
-          />
-        </div>
-
-        <br />
-
-        <button type="submit">
-          Update Resource
-        </button>
-
-        {" "}
-
-        <button
-          type="button"
-          onClick={handleCancelEdit}
+        <form
+          className="admin-form"
+          onSubmit={handleCreateResource}
         >
-          Cancel
-        </button>
 
-      </form>
+          <div className="form-group">
 
-    ) : (
+            <label>Resource Title</label>
 
-      <>
-        <h3>{resource.title}</h3>
+            <input
+              type="text"
+              placeholder="Enter resource title"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+              required
+            />
 
-        <p>
-          <strong>Description:</strong>{" "}
-          {resource.description}
-        </p>
+          </div>
 
-        <p>
-          <strong>Type:</strong>{" "}
-          {resource.type}
-        </p>
 
-        <p>
-          <strong>URL:</strong>{" "}
-          <a
-            href={resource.url}
-            target="_blank"
-            rel="noopener noreferrer"
+          <div className="form-group">
+
+            <label>Description</label>
+
+            <textarea
+              placeholder="Enter resource description"
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              required
+            />
+
+          </div>
+
+
+          <div className="admin-form-row">
+
+            <div className="form-group">
+
+              <label>Resource Type</label>
+
+              <select
+                value={type}
+                onChange={(e) =>
+                  setType(e.target.value)
+                }
+              >
+
+                <option value="notes">
+                  Notes
+                </option>
+
+                <option value="study-material">
+                  Study Material
+                </option>
+
+                <option value="previous-year-question">
+                  Previous Year Question
+                </option>
+
+                <option value="link">
+                  Link
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div className="form-group">
+
+              <label>Resource URL</label>
+
+              <input
+                type="url"
+                placeholder="Enter resource URL"
+                value={url}
+                onChange={(e) =>
+                  setUrl(e.target.value)
+                }
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="submit"
+            className="btn btn-primary"
           >
-            Open Resource
-          </a>
-        </p>
+            Create Resource
+          </button>
 
-        <button
-          onClick={() =>
-            handleEditClick(resource)
-          }
-        >
-          Edit
-        </button>
+        </form>
 
-        {" "}
+      </section>
 
-<button
-  onClick={() =>
-    handleDeleteResource(resource._id)
-  }
->
-  Delete
-</button>
 
-      </>
+      {/* All Resources */}
 
-    )}
+      <section className="admin-resources-section">
 
-    <hr />
+        <div className="section-heading">
+
+          <div>
+
+            <h2>All Resources</h2>
+
+            <p>
+              {resources.length} resource
+              {resources.length !== 1 ? "s" : ""} available.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        {resources.length === 0 ? (
+
+          <div className="empty-state">
+
+            <div className="empty-icon">
+              📚
+            </div>
+
+            <h3>
+              No resources found
+            </h3>
+
+            <p>
+              Create a resource to display it here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="admin-resource-list">
+
+            {resources.map((resource) => (
+
+              <div
+                className="admin-resource-card"
+                key={resource._id}
+              >
+
+                {editingId === resource._id ? (
+
+                  /* Edit Resource */
+
+                  <form
+                    className="admin-edit-form"
+                    onSubmit={handleUpdateResource}
+                  >
+
+                    <div className="admin-edit-header">
+
+                      <div>
+
+                        <p className="page-label">
+                          Editing Resource
+                        </p>
+
+                        <h3>
+                          {resource.title}
+                        </h3>
+
+                      </div>
+
+                    </div>
+
+
+                    <div className="form-group">
+
+                      <label>Resource Title</label>
+
+                      <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) =>
+                          setEditTitle(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+
+                    <div className="form-group">
+
+                      <label>Description</label>
+
+                      <textarea
+                        value={editDescription}
+                        onChange={(e) =>
+                          setEditDescription(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+
+                    <div className="admin-form-row">
+
+                      <div className="form-group">
+
+                        <label>Resource Type</label>
+
+                        <select
+                          value={editType}
+                          onChange={(e) =>
+                            setEditType(e.target.value)
+                          }
+                        >
+
+                          <option value="notes">
+                            Notes
+                          </option>
+
+                          <option value="study-material">
+                            Study Material
+                          </option>
+
+                          <option value="previous-year-question">
+                            Previous Year Question
+                          </option>
+
+                          <option value="link">
+                            Link
+                          </option>
+
+                        </select>
+
+                      </div>
+
+
+                      <div className="form-group">
+
+                        <label>Resource URL</label>
+
+                        <input
+                          type="url"
+                          value={editUrl}
+                          onChange={(e) =>
+                            setEditUrl(e.target.value)
+                          }
+                          required
+                        />
+
+                      </div>
+
+                    </div>
+
+
+                    <div className="admin-edit-actions">
+
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        Update Resource
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+
+                    </div>
+
+                  </form>
+
+                ) : (
+
+                  /* Resource Display */
+
+                  <>
+
+                    <div className="admin-resource-top">
+
+                      <div className="admin-resource-icon">
+                        📚
+                      </div>
+
+
+                      <div className="admin-resource-title-area">
+
+                        <h3>
+                          {resource.title}
+                        </h3>
+
+                        <span className="resource-type-badge">
+                          {resource.type}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    <p className="admin-resource-description">
+                      {resource.description}
+                    </p>
+
+
+                    <div className="admin-resource-url">
+
+                      <span>
+                        Resource Link
+                      </span>
+
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open Resource →
+                      </a>
+
+                    </div>
+
+
+                    <div className="admin-resource-actions">
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() =>
+                          handleEditClick(resource)
+                        }
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleDeleteResource(resource._id)
+                        }
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                  </>
+
+                )}
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
 
   </div>
-)))}
-</div>);
-}
+);}
+  
 
 
 export default AdminResources;

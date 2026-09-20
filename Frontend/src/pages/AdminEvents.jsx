@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import.meta.env.VITE_API_URL
 
 function AdminEvents() {
   const [events, setEvents] = useState([]);
@@ -23,7 +22,7 @@ function AdminEvents() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "${import.meta.env.VITE_API_URL}/api/events",
+        `${import.meta.env.VITE_API_URL}/api/events`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -215,246 +214,381 @@ function AdminEvents() {
     return <p>Loading events...</p>;
   }
 
-  return (
-    <div>
 
-      <Link to="/admin">
-        ← Back to Dashboard
+return (
+  <div className="content-page">
+
+    <header className="content-header">
+
+      <div>
+        <p className="page-label">
+          Administration
+        </p>
+
+        <h1>Manage Events</h1>
+
+        <p className="page-description">
+          Create, update, and manage college events.
+        </p>
+      </div>
+
+      <Link
+        to="/admin"
+        className="btn btn-secondary"
+      >
+        ← Dashboard
       </Link>
 
-      <h1>Manage Events</h1>
+    </header>
 
-      <hr />
 
-      <h2>Create Event</h2>
+    <main className="content-container">
 
-      <form onSubmit={handleCreateEvent}>
+      {/* Create Event */}
 
-        <div>
-          <label>Title</label>
+      <section className="admin-form-card">
 
-          <br />
+        <div className="section-heading">
 
-          <input
-            type="text"
-            placeholder="Enter event title"
-            value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
-            required
-          />
+          <div>
+            <h2>Create Event</h2>
+
+            <p>
+              Add a new event for students to view.
+            </p>
+          </div>
+
         </div>
 
-        <br />
 
-        <div>
-          <label>Description</label>
+        <form
+          className="admin-form"
+          onSubmit={handleCreateEvent}
+        >
 
-          <br />
+          <div className="form-group">
+            <label>Event Title</label>
 
-          <textarea
-            placeholder="Enter event description"
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            required
-          />
-        </div>
+            <input
+              type="text"
+              placeholder="Enter event title"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+              required
+            />
+          </div>
 
-        <br />
 
-        <div>
-          <label>Date</label>
+          <div className="form-group">
+            <label>Description</label>
 
-          <br />
+            <textarea
+              placeholder="Enter event description"
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              required
+            />
+          </div>
 
-          <input
-            type="datetime-local"
-            value={date}
-            onChange={(e) =>
-              setDate(e.target.value)
-            }
-            required
-          />
-        </div>
 
-        <br />
+          <div className="admin-form-row">
 
-        <div>
-          <label>Location</label>
+            <div className="form-group">
+              <label>Date and Time</label>
 
-          <br />
+              <input
+                type="datetime-local"
+                value={date}
+                onChange={(e) =>
+                  setDate(e.target.value)
+                }
+                required
+              />
+            </div>
 
-          <input
-            type="text"
-            placeholder="Enter event location"
-            value={location}
-            onChange={(e) =>
-              setLocation(e.target.value)
-            }
-            required
-          />
-        </div>
 
-        <br />
+            <div className="form-group">
+              <label>Location</label>
 
-        <button type="submit">
-          Create Event
-        </button>
-
-      </form>
-
-      <hr />
-
-      <h2>All Events</h2>
-
-      {events.length === 0 ? (
-        <p>No events found.</p>
-      ) : (
-        events.map((event) => (
-          <div key={event._id}>
-
-            {editingId === event._id ? (
-
-              <form onSubmit={handleUpdateEvent}>
-
-                <h3>Edit Event</h3>
-
-                <div>
-                  <label>Title</label>
-
-                  <br />
-
-                  <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) =>
-                      setEditTitle(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <div>
-                  <label>Description</label>
-
-                  <br />
-
-                  <textarea
-                    value={editDescription}
-                    onChange={(e) =>
-                      setEditDescription(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <div>
-                  <label>Date</label>
-
-                  <br />
-
-                  <input
-                    type="datetime-local"
-                    value={editDate}
-                    onChange={(e) =>
-                      setEditDate(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <div>
-                  <label>Location</label>
-
-                  <br />
-
-                  <input
-                    type="text"
-                    value={editLocation}
-                    onChange={(e) =>
-                      setEditLocation(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <button type="submit">
-                  Update Event
-                </button>
-
-                {" "}
-
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                >
-                  Cancel
-                </button>
-
-              </form>
-
-            ) : (
-
-              <>
-                <h3>{event.title}</h3>
-
-                <p>
-                  <strong>Description:</strong>{" "}
-                  {event.description}
-                </p>
-
-                <p>
-                  <strong>Date:</strong>{" "}
-                  {new Date(
-                    event.date
-                  ).toLocaleString()}
-                </p>
-
-                <p>
-                  <strong>Location:</strong>{" "}
-                  {event.location}
-                </p>
-
-                <button
-                  onClick={() =>
-                    handleEditClick(event)
-                  }
-                >
-                  Edit
-                </button>
-
-                {" "}
-
-                <button
-                  onClick={() =>
-                    handleDeleteEvent(event._id)
-                  }
-                >
-                  Delete
-                </button>
-              </>
-
-            )}
-
-            <hr />
+              <input
+                type="text"
+                placeholder="Enter event location"
+                value={location}
+                onChange={(e) =>
+                  setLocation(e.target.value)
+                }
+                required
+              />
+            </div>
 
           </div>
-        ))
-      )}
 
-    </div>
-  );
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+          >
+            Create Event
+          </button>
+
+        </form>
+
+      </section>
+
+
+      {/* All Events */}
+
+      <section className="admin-events-section">
+
+        <div className="section-heading">
+
+          <div>
+            <h2>All Events</h2>
+
+            <p>
+              {events.length} event
+              {events.length !== 1 ? "s" : ""} available.
+            </p>
+          </div>
+
+        </div>
+
+
+        {events.length === 0 ? (
+
+          <div className="empty-state">
+
+            <div className="empty-icon">
+              📅
+            </div>
+
+            <h3>
+              No events found
+            </h3>
+
+            <p>
+              Create an event to display it here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="admin-event-list">
+
+            {events.map((event) => (
+
+              <div
+                className="admin-event-card"
+                key={event._id}
+              >
+
+                {editingId === event._id ? (
+
+                  /* Edit Event */
+
+                  <form
+                    className="admin-edit-form"
+                    onSubmit={handleUpdateEvent}
+                  >
+
+                    <div className="admin-edit-header">
+
+                      <div>
+                        <p className="page-label">
+                          Editing Event
+                        </p>
+
+                        <h3>
+                          {event.title}
+                        </h3>
+                      </div>
+
+                    </div>
+
+
+                    <div className="form-group">
+                      <label>Event Title</label>
+
+                      <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) =>
+                          setEditTitle(e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+
+
+                    <div className="form-group">
+                      <label>Description</label>
+
+                      <textarea
+                        value={editDescription}
+                        onChange={(e) =>
+                          setEditDescription(e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+
+
+                    <div className="admin-form-row">
+
+                      <div className="form-group">
+                        <label>Date and Time</label>
+
+                        <input
+                          type="datetime-local"
+                          value={editDate}
+                          onChange={(e) =>
+                            setEditDate(e.target.value)
+                          }
+                          required
+                        />
+                      </div>
+
+
+                      <div className="form-group">
+                        <label>Location</label>
+
+                        <input
+                          type="text"
+                          value={editLocation}
+                          onChange={(e) =>
+                            setEditLocation(e.target.value)
+                          }
+                          required
+                        />
+                      </div>
+
+                    </div>
+
+
+                    <div className="admin-edit-actions">
+
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        Update Event
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+
+                    </div>
+
+                  </form>
+
+                ) : (
+
+                  /* Event Display */
+
+                  <>
+
+                    <div className="admin-event-top">
+
+                      <div className="admin-event-icon">
+                        📅
+                      </div>
+
+
+                      <div className="admin-event-title-area">
+
+                        <h3>
+                          {event.title}
+                        </h3>
+
+                        <p>
+                          📍 {event.location}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+
+                    <p className="admin-event-description">
+                      {event.description}
+                    </p>
+
+
+                    <div className="admin-event-details">
+
+                      <div>
+                        <span>📅 Date & Time</span>
+
+                        <strong>
+                          {new Date(
+                            event.date
+                          ).toLocaleString()}
+                        </strong>
+                      </div>
+
+
+                      <div>
+                        <span>📍 Location</span>
+
+                        <strong>
+                          {event.location}
+                        </strong>
+                      </div>
+
+                    </div>
+
+
+                    <div className="admin-event-actions">
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() =>
+                          handleEditClick(event)
+                        }
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleDeleteEvent(event._id)
+                        }
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                  </>
+
+                )}
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
+
+  </div>
+);
+  
 }
 
 export default AdminEvents;

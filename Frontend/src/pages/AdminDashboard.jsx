@@ -12,7 +12,7 @@ function AdminDashboard() {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "${import.meta.env.VITE_API_URL}/api/admin/dashboard",
+          `${import.meta.env.VITE_API_URL}/api/admin/dashboard`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -25,7 +25,7 @@ function AdminDashboard() {
           response.data
         );
 
-        setDashboard(response.data);
+        setDashboard(response.data.stats);
 
       } catch (error) {
         console.log(
@@ -54,86 +54,286 @@ function AdminDashboard() {
   }
 
   return (
-    <div>
+  <div className="admin-page">
 
-      <h1>College Connect</h1>
+    <header className="admin-header">
+      <div>
+        <p className="page-label">Administration</p>
 
-      <h2>Admin Dashboard</h2>
+        <h1>College Connect</h1>
 
-      <button onClick={handleLogout}>
+        <p className="page-description">
+          Manage campus activities and student services.
+        </p>
+      </div>
+
+      <button
+        className="btn btn-danger"
+        onClick={handleLogout}
+      >
         Logout
       </button>
+    </header>
 
-      <hr />
+    <main className="admin-container">
 
-      <h3>Dashboard Statistics</h3>
+      {/* Welcome */}
 
-      <p>Total Students: {dashboard.totalStudents}</p>
+      <section className="admin-welcome">
+        <div>
+          <p className="welcome-label">
+            Admin Panel 👋
+          </p>
 
-      <p>Total Notices: {dashboard.totalNotices}</p>
+          <h2>Campus Management Overview</h2>
 
-      <p>Total Complaints: {dashboard.totalComplaints}</p>
+          <p>
+            Monitor students, complaints, notices,
+            events, resources and service requests
+            from one place.
+          </p>
+        </div>
+      </section>
 
-      <p>Pending Complaints: {dashboard.pendingComplaints}</p>
 
-      <p>Total Events: {dashboard.totalEvents}</p>
+      {/* Statistics */}
 
-      <p>Total Resources: {dashboard.totalResources}</p>
+      <section className="admin-section">
 
-      <p>Total Requests: {dashboard.totalRequests}</p>
+        <div className="section-heading">
+          <div>
+            <h2>Dashboard Statistics</h2>
 
-      <p>Pending Requests: {dashboard.pendingRequests}</p>
+            <p>
+              Current overview of campus activities.
+            </p>
+          </div>
+        </div>
 
-      <hr />
+        <div className="admin-stats-grid">
 
-      <h3>Complaint Management</h3>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">👨‍🎓</div>
 
-      <p>
-        View and manage all student complaints.
-      </p>
+            <div>
+              <p>Total Students</p>
+              <h3>{dashboard.totalStudents}</h3>
+            </div>
+          </div>
 
-      <Link to="/admin/complaints">
-        Manage Complaints
-      </Link>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">📢</div>
 
-      <hr />
+            <div>
+              <p>Total Notices</p>
+              <h3>{dashboard.totalNotices}</h3>
+            </div>
+          </div>
 
-      <h3>Notice Management</h3>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">📝</div>
 
-      <p>
-        View and manage all college notices.
-      </p>
+            <div>
+              <p>Total Complaints</p>
+              <h3>{dashboard.totalComplaints}</h3>
+            </div>
+          </div>
 
-      <Link to="/admin/notices">
-        Manage Notices
-      </Link>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">⏳</div>
 
-      <hr />
+            <div>
+              <p>Pending Complaints</p>
+              <h3>{dashboard.pendingComplaints}</h3>
+            </div>
+          </div>
 
-      <h3>Event Management</h3>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">🎉</div>
 
-      <p>
-        Create, edit and delete college events.
-      </p>
+            <div>
+              <p>Total Events</p>
+              <h3>{dashboard.totalEvents}</h3>
+            </div>
+          </div>
 
-      <Link to="/admin/events">
-        Manage Events
-      </Link>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">📚</div>
 
-      <hr />
+            <div>
+              <p>Total Resources</p>
+              <h3>{dashboard.totalResources}</h3>
+            </div>
+          </div>
 
-<h3>Request Management</h3>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">📄</div>
 
-<p>
-  View and manage student requests.
-</p>
+            <div>
+              <p>Total Requests</p>
+              <h3>{dashboard.totalRequests}</h3>
+            </div>
+          </div>
 
-<Link to="/admin/requests">
-  Manage Requests
-</Link>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon">⏰</div>
 
-    </div>
-  );
-}
+            <div>
+              <p>Pending Requests</p>
+              <h3>{dashboard.pendingRequests}</h3>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* Management */}
+
+      <section className="admin-section">
+
+        <div className="section-heading">
+          <div>
+            <h2>Management</h2>
+
+            <p>
+              Access and manage different campus modules.
+            </p>
+          </div>
+        </div>
+
+        <div className="admin-management-grid">
+
+          <div className="admin-management-card">
+
+            <div className="admin-management-icon">
+              📝
+            </div>
+
+            <div>
+              <h3>Complaints</h3>
+
+              <p>
+                View and update student complaints
+                and their current status.
+              </p>
+
+              <Link
+                to="/admin/complaints"
+                className="dashboard-link"
+              >
+                Manage Complaints →
+              </Link>
+            </div>
+
+          </div>
+
+
+          <div className="admin-management-card">
+
+            <div className="admin-management-icon">
+              📢
+            </div>
+
+            <div>
+              <h3>Notices</h3>
+
+              <p>
+                Create, update and delete college
+                announcements.
+              </p>
+
+              <Link
+                to="/admin/notices"
+                className="dashboard-link"
+              >
+                Manage Notices →
+              </Link>
+            </div>
+
+          </div>
+
+
+          <div className="admin-management-card">
+
+            <div className="admin-management-icon">
+              🎉
+            </div>
+
+            <div>
+              <h3>Events</h3>
+
+              <p>
+                Create, edit and delete college events.
+              </p>
+
+              <Link
+                to="/admin/events"
+                className="dashboard-link"
+              >
+                Manage Events →
+              </Link>
+            </div>
+
+          </div>
+
+
+          <div className="admin-management-card">
+
+            <div className="admin-management-icon">
+              📚
+            </div>
+
+            <div>
+              <h3>Resources</h3>
+
+              <p>
+                Manage academic resources available
+                to students.
+              </p>
+
+              <Link
+                to="/admin/resources"
+                className="dashboard-link"
+              >
+                Manage Resources →
+              </Link>
+            </div>
+
+          </div>
+
+
+          <div className="admin-management-card">
+
+            <div className="admin-management-icon">
+              📄
+            </div>
+
+            <div>
+              <h3>Requests</h3>
+
+              <p>
+                View and manage student service requests.
+              </p>
+
+              <Link
+                to="/admin/requests"
+                className="dashboard-link"
+              >
+                Manage Requests →
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+);}
 
 export default AdminDashboard;

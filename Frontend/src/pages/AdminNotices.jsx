@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import.meta.env.VITE_API_URL
+
 
 function AdminNotices() {
   const [notices, setNotices] = useState([]);
@@ -20,7 +20,7 @@ function AdminNotices() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "${import.meta.env.VITE_API_URL}/api/notices",
+        `${import.meta.env.VITE_API_URL}/api/notices`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -201,171 +201,305 @@ function AdminNotices() {
   }
 
   return (
-    <div>
+  <div className="content-page">
 
-      <Link to="/admin">
-        ← Back to Dashboard
+    <header className="content-header">
+
+      <div>
+        <p className="page-label">
+          Administration
+        </p>
+
+        <h1>Manage Notices</h1>
+
+        <p className="page-description">
+          Create, update, and manage important college notices.
+        </p>
+      </div>
+
+      <Link
+        to="/admin"
+        className="btn btn-secondary"
+      >
+        ← Dashboard
       </Link>
 
-      <h1>Manage Notices</h1>
+    </header>
 
-      <hr />
 
-      <h2>Create Notice</h2>
+    <main className="content-container">
 
-      <form onSubmit={handleCreateNotice}>
+      {/* Create Notice */}
 
-        <div>
-          <label>Title</label>
+      <section className="admin-form-card">
 
-          <br />
+        <div className="section-heading">
 
-          <input
-            type="text"
-            placeholder="Enter notice title"
-            value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
-            required
-          />
+          <div>
+            <h2>Create Notice</h2>
+
+            <p>
+              Publish an important announcement for students.
+            </p>
+          </div>
+
         </div>
 
-        <br />
 
-        <div>
-          <label>Description</label>
+        <form
+          className="admin-form"
+          onSubmit={handleCreateNotice}
+        >
 
-          <br />
+          <div className="form-group">
 
-          <textarea
-            placeholder="Enter notice description"
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            required
-          />
-        </div>
+            <label>Notice Title</label>
 
-        <br />
-
-        <button type="submit">
-          Create Notice
-        </button>
-
-      </form>
-
-      <hr />
-
-      <h2>All Notices</h2>
-
-      {notices.length === 0 ? (
-        <p>No notices found.</p>
-      ) : (
-        notices.map((notice) => (
-          <div key={notice._id}>
-
-            {editingId === notice._id ? (
-
-              <form onSubmit={handleUpdateNotice}>
-
-                <h3>Edit Notice</h3>
-
-                <div>
-                  <label>Title</label>
-
-                  <br />
-
-                  <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) =>
-                      setEditTitle(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <div>
-                  <label>Description</label>
-
-                  <br />
-
-                  <textarea
-                    value={editDescription}
-                    onChange={(e) =>
-                      setEditDescription(e.target.value)
-                    }
-                    required
-                  />
-                </div>
-
-                <br />
-
-                <button type="submit">
-                  Update Notice
-                </button>
-
-                {" "}
-
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                >
-                  Cancel
-                </button>
-
-              </form>
-
-            ) : (
-
-              <>
-                <h3>{notice.title}</h3>
-
-                <p>
-                  <strong>Description:</strong>{" "}
-                  {notice.description}
-                </p>
-
-                <p>
-                  <strong>Created:</strong>{" "}
-                  {new Date(
-                    notice.createdAt
-                  ).toLocaleString()}
-                </p>
-
-                <button
-                  onClick={() =>
-                    handleEditClick(notice)
-                  }
-                >
-                  Edit
-                </button>
-
-                {" "}
-
-                <button
-                  onClick={() =>
-                    handleDeleteNotice(notice._id)
-                  }
-                >
-                  Delete
-                </button>
-              </>
-
-            )}
-
-            <hr />
+            <input
+              type="text"
+              placeholder="Enter notice title"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+              required
+            />
 
           </div>
-        ))
-      )}
 
-    </div>
-  );
+
+          <div className="form-group">
+
+            <label>Description</label>
+
+            <textarea
+              placeholder="Enter notice description"
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              required
+            />
+
+          </div>
+
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+          >
+            Create Notice
+          </button>
+
+        </form>
+
+      </section>
+
+
+      {/* All Notices */}
+
+      <section className="admin-notices-section">
+
+        <div className="section-heading">
+
+          <div>
+            <h2>All Notices</h2>
+
+            <p>
+              {notices.length} notice
+              {notices.length !== 1 ? "s" : ""} available.
+            </p>
+          </div>
+
+        </div>
+
+
+        {notices.length === 0 ? (
+
+          <div className="empty-state">
+
+            <div className="empty-icon">
+              📢
+            </div>
+
+            <h3>
+              No notices found
+            </h3>
+
+            <p>
+              Create a notice to display it here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="admin-notice-list">
+
+            {notices.map((notice) => (
+
+              <div
+                className="admin-notice-card"
+                key={notice._id}
+              >
+
+                {editingId === notice._id ? (
+
+                  /* Edit Notice */
+
+                  <form
+                    className="admin-edit-form"
+                    onSubmit={handleUpdateNotice}
+                  >
+
+                    <div className="admin-edit-header">
+
+                      <div>
+                        <p className="page-label">
+                          Editing Notice
+                        </p>
+
+                        <h3>
+                          {notice.title}
+                        </h3>
+                      </div>
+
+                    </div>
+
+
+                    <div className="form-group">
+
+                      <label>Notice Title</label>
+
+                      <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) =>
+                          setEditTitle(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+
+                    <div className="form-group">
+
+                      <label>Description</label>
+
+                      <textarea
+                        value={editDescription}
+                        onChange={(e) =>
+                          setEditDescription(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+
+                    <div className="admin-edit-actions">
+
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        Update Notice
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+
+                    </div>
+
+                  </form>
+
+                ) : (
+
+                  /* Notice Display */
+
+                  <>
+
+                    <div className="admin-notice-top">
+
+                      <div className="admin-notice-icon">
+                        📢
+                      </div>
+
+
+                      <div className="admin-notice-title-area">
+
+                        <h3>
+                          {notice.title}
+                        </h3>
+
+                        <p>
+                          Published notice
+                        </p>
+
+                      </div>
+
+                    </div>
+
+
+                    <p className="admin-notice-description">
+                      {notice.description}
+                    </p>
+
+
+                    <p className="admin-notice-date">
+                      Created:{" "}
+                      {new Date(
+                        notice.createdAt
+                      ).toLocaleString()}
+                    </p>
+
+
+                    <div className="admin-notice-actions">
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() =>
+                          handleEditClick(notice)
+                        }
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleDeleteNotice(notice._id)
+                        }
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                  </>
+
+                )}
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
+
+  </div>
+);
 }
 
 export default AdminNotices;
